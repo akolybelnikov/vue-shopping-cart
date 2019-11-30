@@ -1,3 +1,5 @@
+# discound code: 12345
+
 # Vue-Shopping-Cart
 
 ## Project setup
