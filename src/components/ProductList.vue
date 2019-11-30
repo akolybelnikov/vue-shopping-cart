@@ -8,7 +8,6 @@
           </v-card-title>
           <v-spacer></v-spacer>
           <v-data-table
-            v-model="selected"
             :headers="headers"
             :items="products"
             :items-per-page="5"
@@ -31,16 +30,37 @@
         <v-card>
           <v-card-title>
             Cart
+            <v-spacer></v-spacer>
+            <v-chip color="primary" dark>Total amount: {{ total }} €</v-chip>
           </v-card-title>
-          <v-spacer></v-spacer>
           <v-data-table
-            v-model="cart"
             :headers="cartHeaders"
             :items="cart"
+            :items-per-page="10"
             :hide-default-footer="true"
-            item-key="id"
+            item-key="item.id"
             class="elevation-0"
-          ></v-data-table>
+          >
+            <template v-slot:item.action="{ item }">
+              <v-btn icon @click="increase(item)">
+                <v-icon small>
+                  fas fa-plus
+                </v-icon>
+              </v-btn>
+
+              <v-btn icon @click="decrease(item)">
+                <v-icon small>
+                  fas fa-minus
+                </v-icon>
+              </v-btn>
+
+              <v-btn icon @click="remove(item)">
+                <v-icon small>
+                  fas fa-trash
+                </v-icon>
+              </v-btn>
+            </template></v-data-table
+          >
         </v-card>
       </v-flex>
     </v-layout>
@@ -49,13 +69,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Product } from '@/models/product'
+import { CartItem } from '@/models/cartItem'
 
 export default Vue.extend({
   name: 'ProductList',
 
   data: () => ({
-    singleSelect: false,
-    selected: [],
     headers: [
       {
         text: 'Product name',
@@ -64,7 +84,7 @@ export default Vue.extend({
         value: 'productName',
       },
       {
-        text: 'Price, Euro',
+        text: 'Price (€)',
         align: 'left',
         sortable: 'true',
         value: 'price',
@@ -76,30 +96,44 @@ export default Vue.extend({
         align: 'center',
       },
     ],
-    products: [],
-    cart: [],
     cartHeaders: [
       {
         text: 'Product',
         align: 'left',
-        sortable: 'true',
-        value: 'productName',
+        sortable: 'false',
+        value: 'item.productName',
       },
       {
-        text: 'Price, Euro',
-        align: 'left',
-        sortable: 'true',
-        value: 'price',
+        text: 'Amount',
+        align: 'center',
+        sortable: 'false',
+        value: 'amount',
       },
       {
-        text: 'Discounted Price',
+        text: 'Item price (€)',
+        align: 'left',
+        sortable: 'false',
+        value: 'item.price',
+      },
+      {
+        text: 'Total price (€)',
         align: 'left',
         sortable: 'true',
-        value: 'price',
+        value: 'total',
       },
-      { text: 'Actions', value: 'add', sortable: false },
+      { text: 'Actions', align: 'center', value: 'action', sortable: false },
     ],
+    products: [] as Product[],
   }),
+
+  computed: {
+    total(): number {
+      return this.$store.state.total
+    },
+    cart(): CartItem[] {
+      return this.$store.state.cart
+    },
+  },
 
   created() {
     this.initialize()
@@ -107,10 +141,19 @@ export default Vue.extend({
 
   methods: {
     initialize() {
-        this.products = this.$store.state.products
+      this.products = this.$store.state.products
     },
-    addItem(item: any) {
-      console.log(item)
+    addItem(item: Product) {
+      this.$store.commit('add', item)
+    },
+    increase(item: CartItem) {
+      this.$store.commit('increase', item)
+    },
+    decrease(item: CartItem) {
+      this.$store.commit('decrease', item)
+    },
+    remove(item: CartItem) {
+      this.$store.commit('delete', item)
     },
   },
 })
