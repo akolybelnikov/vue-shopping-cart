@@ -11,15 +11,15 @@
           width="20"
         />
 
-        <v-header
+        <v-subheader
           alt="App Name"
-          class="shrink mt-1 hidden-sm-and-down"
+          class="shrink mt-1"
           contain
           min-width="100"
           width="100"
         >
           Vue Shopping Cart
-        </v-header>
+        </v-subheader>
       </div>
 
       <v-spacer></v-spacer>
@@ -27,14 +27,12 @@
 
     <v-content>
       <ProductList />
-      <ProductCart />
     </v-content>
   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import ProductCart from '@/components/ProductCart.vue'
 import ProductList from './components/ProductList.vue'
 
 export default Vue.extend({
@@ -42,7 +40,6 @@ export default Vue.extend({
 
   components: {
     ProductList,
-    ProductCart,
   },
 
   data: () => ({
