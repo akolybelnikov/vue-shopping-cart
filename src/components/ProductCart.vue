@@ -70,94 +70,94 @@
 </template>
 
 <script lang="ts">
-import Vue, { VueConstructor } from 'vue'
-import { Product } from '@/models/product'
-import { CartItem } from '@/models/cartItem'
-import VForm from '@/plugins/vuetify'
+import Vue, { VueConstructor } from "vue";
+import { Product } from "@/models/product";
+import { CartItem } from "@/models/cartItem";
+import VForm from "@/plugins/vuetify";
 
 export default (Vue as VueConstructor<
   Vue & {
     $refs: {
-      discount: InstanceType<typeof VForm>
-      form: InstanceType<typeof VForm>
-    }
+      discount: InstanceType<typeof VForm>;
+      form: InstanceType<typeof VForm>;
+    };
   }
 >).extend({
-  name: 'ProductCart',
+  name: "ProductCart",
 
   data: () => ({
-    discount: '',
+    discount: "",
     cartHeaders: [
       {
-        text: 'Product',
-        align: 'left',
-        sortable: 'false',
-        value: 'item.productName',
+        text: "Product",
+        align: "left",
+        sortable: "false",
+        value: "item.productName"
       },
       {
-        text: 'Amount',
-        align: 'center',
-        sortable: 'false',
-        value: 'amount',
+        text: "Amount",
+        align: "center",
+        sortable: "false",
+        value: "amount"
       },
       {
-        text: 'Item price (€)',
-        align: 'left',
-        sortable: 'false',
-        value: 'item.price',
+        text: "Item price (€)",
+        align: "left",
+        sortable: "false",
+        value: "item.price"
       },
       {
-        text: 'Total price (€)',
-        align: 'left',
-        sortable: 'true',
-        value: 'total',
+        text: "Total price (€)",
+        align: "left",
+        sortable: "true",
+        value: "total"
       },
-      { text: 'Actions', align: 'center', value: 'action', sortable: false },
-    ],
+      { text: "Actions", align: "center", value: "action", sortable: false }
+    ]
   }),
 
   computed: {
     total(): number {
-      return this.$store.state.total
+      return this.$store.state.total;
     },
     cart(): CartItem[] {
-      return this.$store.state.cart
+      return this.$store.state.cart;
     },
     form() {
       return {
-        discount: this.discount,
-      }
+        discount: this.discount
+      };
     },
     discounted(): boolean {
-      return this.$store.state.discounted
+      return this.$store.state.discounted;
     },
     codeMessage(): string {
-      return this.$store.state.codeMessage
+      return this.$store.state.codeMessage;
     },
     discountedTotal(): number {
-      return this.$store.state.discountedTotal
-    },
+      return this.$store.state.discountedTotal;
+    }
   },
 
   methods: {
     increase(item: CartItem) {
-      this.$store.commit('increase', item)
+      this.$store.commit("increase", item);
     },
     decrease(item: CartItem) {
-      this.$store.commit('decrease', item)
+      this.$store.commit("decrease", item);
     },
     remove(item: CartItem) {
-      this.$store.commit('remove', item)
+      this.$store.commit("remove", item);
     },
     empty() {
-      this.$store.commit('empty')
+      this.$store.commit("empty");
     },
     submitCode() {
-      this.$store.commit('apply', this.form.discount)
+      this.$store.commit("apply", this.form.discount);
     },
     resetError() {
-      this.$store.commit('reset')
-    },
-  },
-})
+      this.$store.commit("reset");
+    }
+  }
+});
 </script>

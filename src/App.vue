@@ -33,20 +33,20 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ProductList from '@/components/ProductList.vue'
-import ProductCart from '@/components/ProductCart.vue'
+import Vue from "vue";
+import ProductList from "@/components/ProductList.vue";
+import ProductCart from "@/components/ProductCart.vue";
 
 export default Vue.extend({
-  name: 'App',
+  name: "App",
 
   components: {
     ProductList,
-    ProductCart,
+    ProductCart
   },
 
   data: () => ({
     //
-  }),
-})
+  })
+});
 </script>

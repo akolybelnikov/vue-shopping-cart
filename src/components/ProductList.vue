@@ -25,71 +25,70 @@
         </v-card>
       </v-flex>
     </v-layout>
-</v-container>
-
+  </v-container>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Product } from '@/models/product'
-import { CartItem } from '@/models/cartItem'
+import Vue from "vue";
+import { Product } from "@/models/product";
+import { CartItem } from "@/models/cartItem";
 
 export default Vue.extend({
-  name: 'ProductList',
+  name: "ProductList",
 
   data: () => ({
     headers: [
       {
-        text: 'Product name',
-        align: 'left',
-        sortable: 'true',
-        value: 'productName',
+        text: "Product name",
+        align: "left",
+        sortable: "true",
+        value: "productName"
       },
       {
-        text: 'Price (€)',
-        align: 'left',
-        sortable: 'true',
-        value: 'price',
+        text: "Price (€)",
+        align: "left",
+        sortable: "true",
+        value: "price"
       },
       {
-        text: 'Add to cart',
-        value: 'action',
+        text: "Add to cart",
+        value: "action",
         sortable: false,
-        align: 'center',
-      },
+        align: "center"
+      }
     ],
-    products: [] as Product[],
+    products: [] as Product[]
   }),
 
   computed: {
     total(): number {
-      return this.$store.state.total
+      return this.$store.state.total;
     },
     cart(): CartItem[] {
-      return this.$store.state.cart
-    },
+      return this.$store.state.cart;
+    }
   },
 
   created() {
-    this.initialize()
+    this.initialize();
   },
 
   methods: {
     initialize() {
-      this.products = this.$store.state.products
+      this.products = this.$store.state.products;
     },
     addItem(item: Product) {
-      this.$store.commit('add', item)
+      this.$store.commit("add", item);
     },
     increase(item: CartItem) {
-      this.$store.commit('increase', item)
+      this.$store.commit("increase", item);
     },
     decrease(item: CartItem) {
-      this.$store.commit('decrease', item)
+      this.$store.commit("decrease", item);
     },
     remove(item: CartItem) {
-      this.$store.commit('delete', item)
-    },
-  },
-})
+      this.$store.commit("delete", item);
+    }
+  }
+});
 </script>
