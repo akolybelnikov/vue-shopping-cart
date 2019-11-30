@@ -27,19 +27,22 @@
 
     <v-content>
       <ProductList />
+      <ProductCart />
     </v-content>
   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import ProductList from './components/ProductList.vue'
+import ProductList from '@/components/ProductList.vue'
+import ProductCart from '@/components/ProductCart.vue'
 
 export default Vue.extend({
   name: 'App',
 
   components: {
     ProductList,
+    ProductCart,
   },
 
   data: () => ({
