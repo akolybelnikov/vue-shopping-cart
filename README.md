@@ -1,4 +1,4 @@
-# test
+# Vue-Shopping-Cart
 
 ## Project setup
 ```

@@ -6,7 +6,34 @@
           <v-card-title>
             Cart
             <v-spacer></v-spacer>
-            <v-chip color="primary" dark>Total amount: {{ total }} €</v-chip>
+            <v-btn v-show="cart.length" @click="empty()" raised color="warning"
+              >Empty cart</v-btn
+            >
+            <v-spacer></v-spacer>
+            <v-chip dark>Total amount: {{ total }} €</v-chip>
+          </v-card-title>
+          <v-card-title>
+            <v-form ref="form" @submit.prevent="submitCode()">
+              <v-container>
+                <v-row>
+                  <v-col cols="12" xs="12">
+                    <v-text-field
+                      v-model="discount"
+                      ref="discount"
+                      :error-messages="codeMessage"
+                      :disabled="!cart.length || discounted"
+                      label="Discount code"
+                      clearable
+                      @blur="submitCode()"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-form>
+            <v-spacer></v-spacer>
+            <v-chip v-show="discounted" color="primary" dark
+              >Discounted amount: {{ discountedTotal }} €</v-chip
+            >
           </v-card-title>
           <v-data-table
             :headers="cartHeaders"
@@ -43,14 +70,23 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { VueConstructor } from 'vue'
 import { Product } from '@/models/product'
 import { CartItem } from '@/models/cartItem'
+import VForm from '@/plugins/vuetify'
 
-export default Vue.extend({
+export default (Vue as VueConstructor<
+  Vue & {
+    $refs: {
+      discount: InstanceType<typeof VForm>
+      form: InstanceType<typeof VForm>
+    }
+  }
+>).extend({
   name: 'ProductCart',
 
   data: () => ({
+    discount: '',
     cartHeaders: [
       {
         text: 'Product',
@@ -87,6 +123,20 @@ export default Vue.extend({
     cart(): CartItem[] {
       return this.$store.state.cart
     },
+    form() {
+      return {
+        discount: this.discount,
+      }
+    },
+    discounted(): boolean {
+      return this.$store.state.discounted
+    },
+    codeMessage(): string {
+      return this.$store.state.codeMessage
+    },
+    discountedTotal(): number {
+      return this.$store.state.discountedTotal
+    },
   },
 
   methods: {
@@ -97,7 +147,16 @@ export default Vue.extend({
       this.$store.commit('decrease', item)
     },
     remove(item: CartItem) {
-      this.$store.commit('delete', item)
+      this.$store.commit('remove', item)
+    },
+    empty() {
+      this.$store.commit('empty')
+    },
+    submitCode() {
+      this.$store.commit('apply', this.form.discount)
+    },
+    resetError() {
+      this.$store.commit('reset')
     },
   },
 })
