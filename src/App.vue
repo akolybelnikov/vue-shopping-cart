@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app color="secondary" dark>
       <div class="d-flex align-center">
         <v-img
           alt="Vuetify Logo"
@@ -8,31 +8,21 @@
           contain
           src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
           transition="scale-transition"
-          width="40"
+          width="20"
         />
 
-        <v-img
-          alt="Vuetify Name"
+        <v-header
+          alt="App Name"
           class="shrink mt-1 hidden-sm-and-down"
           contain
           min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
           width="100"
-        />
+        >
+          Vue Shopping Cart
+        </v-header>
       </div>
 
       <v-spacer></v-spacer>
-
-      <v-btn
-        href="
-      https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="
-      _blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
     </v-app-bar>
 
     <v-content>
@@ -43,20 +33,20 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import ProductCart from "@/components/ProductCart.vue";
-import ProductList from "./components/ProductList.vue";
+import Vue from 'vue'
+import ProductCart from '@/components/ProductCart.vue'
+import ProductList from './components/ProductList.vue'
 
 export default Vue.extend({
-  name: "App",
+  name: 'App',
 
   components: {
     ProductList,
-    ProductCart
+    ProductCart,
   },
 
   data: () => ({
     //
-  })
-});
+  }),
+})
 </script>
